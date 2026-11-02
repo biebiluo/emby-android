@@ -16,8 +16,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.StyledPlayerView
-import androidx.media3.ui.TrackSelectionDialog
+import androidx.media3.ui.PlayerView
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listTitle: TextView
     private lateinit var backButton: Button
     private lateinit var listView: ListView
-    private lateinit var playerView: StyledPlayerView
+    private lateinit var playerView: PlayerView
 
     private var server = ""
     private var token = ""
@@ -139,16 +138,6 @@ class MainActivity : AppCompatActivity() {
         val playerButtons = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
         }
-        val trackButton = Button(this).apply {
-            text = "音轨/字幕"
-            setOnClickListener {
-                val currentPlayer = player
-                if (currentPlayer != null) {
-                    TrackSelectionDialog.createForPlayer(currentPlayer, null)
-                        ?.show(supportFragmentManager, "track_selection")
-                }
-            }
-        }
         val backFromPlayerButton = Button(this).apply {
             text = "返回"
             setOnClickListener {
@@ -156,9 +145,8 @@ class MainActivity : AppCompatActivity() {
                 showList()
             }
         }
-        playerButtons.addView(trackButton)
         playerButtons.addView(backFromPlayerButton)
-        playerView = StyledPlayerView(this).apply {
+        playerView = PlayerView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
